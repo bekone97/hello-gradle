@@ -52,7 +52,7 @@ class EmployeeServiceIntegrationTest extends DatabaseContainerInitializer {
             useSequenceFiltering = false)
     void getHello() {
         var expected = Collections.singletonList(employee);
-        var actual = helloService.findAll(true);
+        var actual = helloService.findAll();
         assertEquals(expected,actual);
     }
 }

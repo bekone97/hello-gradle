@@ -13,16 +13,18 @@ import java.util.List;
 public class Rest {
     private final EmployeeService employeeService;
     @GetMapping
-    public List<Employee> getHello(@RequestParam(required = false,defaultValue = "false") boolean isDeleted){
-        if (isDeleted) {
-            return employeeService.findAll(true);
-        }else {
-            return employeeService.findAll(false);
-        }
+    public List<Employee> getHello(){
+            return employeeService.findAll();
+
     }
 
     @DeleteMapping("/{employeeId}")
     public void delete(@PathVariable Long employeeId){
         employeeService.remove(employeeId);
+    }
+
+    @GetMapping("/{employeeId}")
+    public Employee getEmployee(@PathVariable Long employeeId){
+        return employeeService.findById(employeeId);
     }
 }

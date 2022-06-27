@@ -16,8 +16,7 @@ import java.time.LocalDate;
 @Builder
 @TypeDef(name = "postgreSqlEnumType", typeClass = PostgreSqlEnumType.class)
 @SQLDelete(sql="UPDATE employee SET deleted = true WHERE employee_id=?")
-@FilterDef(name = "deletedEmployeeFilter",parameters = @ParamDef(name = "isDeleted",type = "boolean"))
-@Filter(name = "deletedEmployeeFilter",condition = "deleted = :isDeleted")
+@Where(clause = "deleted=false")
 @Entity(name = "employee")
 public class Employee {
     @Id

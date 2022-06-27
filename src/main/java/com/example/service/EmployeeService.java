@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface EmployeeService {
 
-    List<Employee> findAll(boolean isDeleted);
+    List<Employee> findAll();
     public void remove(Long id);
+    Employee findById(Long employeeId);
 }
