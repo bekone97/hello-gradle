@@ -25,6 +25,12 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(()->new RuntimeException("No employee"));
 
     }
+
+    @Override
+    public Employee save(Employee employee) {
+       return employeeRepository.save(employee);
+    }
+
     @Override
     public void remove(Long id) {
         employeeRepository.deleteById(id);
