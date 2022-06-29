@@ -31,12 +31,18 @@ public class HelloController {
     @GetMapping("/{employeeId}")
     @ResponseStatus(HttpStatus.OK)
     public Employee getEmployee(@PathVariable Long employeeId){
-        return employeeService.findById(employeeId);
+        return employeeService.getById(employeeId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Employee saveEmployee(@RequestBody Employee employee){
         return employeeService.save(employee);
+    }
+
+    @PutMapping("/{employeeId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Employee updateEmployee(@PathVariable Long employeeId, @RequestBody Employee employee){
+        return employeeService.update(employee,employeeId);
     }
 }

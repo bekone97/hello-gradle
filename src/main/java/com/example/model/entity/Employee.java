@@ -69,4 +69,7 @@ public class Employee {
     @Column(name = "modified_by")
     @LastModifiedBy
     private String modifiedBy;
+
+    @Version
+    private long version;
 }
