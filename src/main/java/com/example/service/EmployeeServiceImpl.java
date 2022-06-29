@@ -36,7 +36,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional
     public Employee update(Employee employee, long employeeId) {
 
         return employeeRepository.save(mapUpdatedEmployee(employee, getById(employeeId)));
