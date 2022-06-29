@@ -1,9 +1,11 @@
-package com.example.service;
+package com.example.service.impl;
 
 
 import com.example.model.EmployeeRepository;
 import com.example.model.entity.Employee;
+import com.example.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,9 +32,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Employee save(Employee employee) {
+
        return employeeRepository.save(employee);
+
     }
 
     @Override

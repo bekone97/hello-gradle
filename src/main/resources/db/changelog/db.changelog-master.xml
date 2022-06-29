@@ -10,4 +10,5 @@
     <include file="classpath:db/changelog/v.0.2/2022-06-28-update-rows.xml"/>
     <include file="classpath:db/changelog/v.0.2/2022-06-28-add-constraints-to-columns-to-employee.xml"/>
     <include file="classpath:db/changelog/v.0.3/2022-06-29-add-version-column-to-employee.xml"/>
+    <include file="classpath:db/changelog/v.0.4/2022-06-29-changes-create-table-entity_update_statistics.xml"/>
 </databaseChangeLog>

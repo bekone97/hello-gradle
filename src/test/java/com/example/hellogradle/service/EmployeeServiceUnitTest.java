@@ -4,7 +4,7 @@ package com.example.hellogradle.service;
 import com.example.model.EmployeeRepository;
 import com.example.model.entity.Employee;
 import com.example.model.entity.Gender;
-import com.example.service.EmployeeServiceImpl;
+import com.example.service.impl.EmployeeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

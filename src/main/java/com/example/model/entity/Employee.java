@@ -1,5 +1,6 @@
 package com.example.model.entity;
 
+import com.example.listener.AuditEmployeeListener;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +26,7 @@ import java.time.LocalDateTime;
 @SQLDelete(sql="UPDATE employee SET deleted = true WHERE employee_id=?")
 @Where(clause = "deleted=false")
 @Entity(name = "employee")
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners({AuditingEntityListener.class, AuditEmployeeListener.class})
 public class Employee {
     @Id
     @Column(name = "employee_id")

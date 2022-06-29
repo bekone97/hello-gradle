@@ -5,7 +5,7 @@ import com.example.hellogradle.dataTypeFactory.AdditionalPostgresDataTypeFactory
 import com.example.hellogradle.initializer.DatabaseContainerInitializer;
 import com.example.model.entity.Employee;
 import com.example.model.entity.Gender;
-import com.example.service.EmployeeServiceImpl;
+import com.example.service.impl.EmployeeServiceImpl;
 import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.configuration.Orthography;
 import com.github.database.rider.core.api.dataset.DataSet;
