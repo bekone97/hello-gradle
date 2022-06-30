@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 @SQLDelete(sql="UPDATE employee SET deleted = true WHERE employee_id=?")
 @Where(clause = "deleted=false")
 @Entity(name = "employee")
-@EntityListeners({AuditingEntityListener.class, AuditEmployeeListener.class})
+@EntityListeners({AuditingEntityListener.class})
 public class Employee {
     @Id
     @Column(name = "employee_id")
@@ -71,6 +71,6 @@ public class Employee {
     @LastModifiedBy
     private String modifiedBy;
 
-    @Version
-    private long version;
+//    @Version
+//    private long version;
 }

@@ -6,5 +6,10 @@ employee:
     job_tittle: "sales"
     date_Of_Birth: "1997-06-25"
     gender: "MALE"
+    deleted: "false"
+    created_at: "2022-06-29 14:38:37.698672"
+    created_by: "admin"
+    modified_at: "2022-06-29 14:38:37.698672"
+    modified_by: "admin"
 
 
