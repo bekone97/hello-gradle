@@ -22,6 +22,7 @@ public class EntityUpdateStatistics {
     private String entityName;
 
     @Column(name = "entity_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long entityId;
 
     @Column(name = "update_count", nullable = false)

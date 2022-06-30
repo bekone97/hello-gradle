@@ -16,11 +16,9 @@ public class AuditEmployeeListener {
     private final EntityUpdateStatisticsService entityUpdateStatisticsService;
 
 
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION,value = Employee.class)
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION)
     public void handleTransaction(Employee employee){
-        log.info("Make record with Employee = {}",employee);
-        synchronized (this) {
+        log.info("Got event about create or update Employee = {}",employee);
             entityUpdateStatisticsService.makeRecord(employee);
-        }
     }
 }

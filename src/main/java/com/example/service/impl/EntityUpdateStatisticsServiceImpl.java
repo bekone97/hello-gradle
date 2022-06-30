@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +20,8 @@ public class EntityUpdateStatisticsServiceImpl implements EntityUpdateStatistics
     private final EntityUpdateStatisticsRepository entityUpdateStatisticsRepository;
 
     @Override
-    public EntityUpdateStatistics getByEntityId(long entityId) {
-        return entityUpdateStatisticsRepository.findByEntityId(entityId)
+    public EntityUpdateStatistics getByEntityIdAndEntityName(long entityId, String entityName) {
+        return entityUpdateStatisticsRepository.findByEntityIdAndEntityName(entityId,entityName)
                 .orElseThrow(() -> new RuntimeException("There is no statistics with such id "));
     }
 
@@ -32,27 +31,16 @@ public class EntityUpdateStatisticsServiceImpl implements EntityUpdateStatistics
         return entityUpdateStatisticsRepository.findAll();
     }
 
-    @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public EntityUpdateStatistics update(long entityId) {
-        var statistics = getByEntityId(entityId);
-        var count = statistics.getUpdateCount();
-        statistics.setUpdateCount(++count);
-        return entityUpdateStatisticsRepository.save(statistics);
-    }
+
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void makeRecord(Employee employee) {
         log.info("Make save or update with Employee = {}",employee);
-        entityUpdateStatisticsRepository.findByEntityId(employee.getEmployeeId())
-                .ifPresentOrElse(entityUpdateStatistics -> {
-                            var count = entityUpdateStatistics.getUpdateCount();
-                            entityUpdateStatistics.setUpdateCount(++count);
-                            entityUpdateStatisticsRepository.save(entityUpdateStatistics);
-                        },
+        entityUpdateStatisticsRepository.findByEntityIdAndEntityName(employee.getEmployeeId(),employee.getClass().getName())
+                .ifPresentOrElse(entityUpdateStatistics -> entityUpdateStatisticsRepository.increaseUpdateCountById(entityUpdateStatistics.getId()),
                         () -> entityUpdateStatisticsRepository.save(EntityUpdateStatistics.builder()
-                                .entityName("Employee" + employee.getFirstName() + employee.getLastName() + UUID.randomUUID())
+                                .entityName(employee.getClass().getName())
                                 .entityId(employee.getEmployeeId())
                                 .build()));
         }

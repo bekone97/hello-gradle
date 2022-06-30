@@ -7,7 +7,6 @@ import com.example.model.entity.Employee;
 import com.example.model.entity.Gender;
 import com.example.service.EmployeeService;
 import com.example.service.EntityUpdateStatisticsService;
-import com.example.service.impl.EmployeeServiceImpl;
 import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.configuration.Orthography;
 import com.github.database.rider.core.api.dataset.DataSet;
@@ -15,18 +14,16 @@ import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.junit5.api.DBRider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -75,7 +72,6 @@ class EmployeeServiceIntegrationTest extends DatabaseContainerInitializer {
             });
         }
         latch.await();
-        var count = entityUpdateStatisticsService.getByEntityId(employee.getEmployeeId()).getUpdateCount();
-        System.out.println(count);
+        service.shutdown();
     }
 }
