@@ -1,12 +1,13 @@
 package com.example.service.impl;
 
 
+import com.example.event.Entity;
 import com.example.model.EmployeeRepository;
 import com.example.model.entity.Employee;
+import com.example.event.publisher.CustomEntityEventPublisher;
 import com.example.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,7 @@ import java.util.List;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final ApplicationEventPublisher applicationEventPublisher;
+    private final CustomEntityEventPublisher customEntityEventPublisher;
     public List<Employee> findAll() {
 
         return employeeRepository.findAll();
@@ -37,7 +38,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Employee save(Employee employee) {
         log.info("Save Employee = {}",employee);
-       applicationEventPublisher.publishEvent(employee);
+       customEntityEventPublisher.publishCustomEntityEvent(employee, Entity.EMPLOYEE);
        return employeeRepository.save(employee);
 
     }
@@ -49,7 +50,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         log.info("Update Employee = {}",employee);
 
         var updateEmp= employeeRepository.save(mapUpdatedEmployee(employee, getById(employeeId)));
-        applicationEventPublisher.publishEvent(updateEmp);
+        customEntityEventPublisher.publishCustomEntityEvent(employee,Entity.EMPLOYEE);
         return updateEmp;
     }
 

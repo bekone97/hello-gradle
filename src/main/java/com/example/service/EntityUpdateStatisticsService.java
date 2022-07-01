@@ -1,12 +1,11 @@
 package com.example.service;
 
-import com.example.model.entity.Employee;
 import com.example.model.entity.EntityUpdateStatistics;
 
 import java.util.List;
 
 public interface EntityUpdateStatisticsService {
     EntityUpdateStatistics getByEntityIdAndEntityName(long entityId, String entityName);
-    void makeRecord(Employee employee);
+    void makeRecord(EntityUpdateStatistics entityUpdateStatistics);
     List<EntityUpdateStatistics> findAll();
 }

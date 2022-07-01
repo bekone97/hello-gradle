@@ -1,4 +1,4 @@
-package com.example.listener;
+package com.example.event.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.ContextRefreshedEvent;

@@ -1,7 +1,6 @@
 package com.example.service.impl;
 
 import com.example.model.EntityUpdateStatisticsRepository;
-import com.example.model.entity.Employee;
 import com.example.model.entity.EntityUpdateStatistics;
 import com.example.service.EntityUpdateStatisticsService;
 import lombok.RequiredArgsConstructor;
@@ -35,14 +34,11 @@ public class EntityUpdateStatisticsServiceImpl implements EntityUpdateStatistics
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void makeRecord(Employee employee) {
-        log.info("Make save or update with Employee = {}",employee);
-        entityUpdateStatisticsRepository.findByEntityIdAndEntityName(employee.getEmployeeId(),employee.getClass().getName())
-                .ifPresentOrElse(entityUpdateStatistics -> entityUpdateStatisticsRepository.increaseUpdateCountById(entityUpdateStatistics.getId()),
-                        () -> entityUpdateStatisticsRepository.save(EntityUpdateStatistics.builder()
-                                .entityName(employee.getClass().getName())
-                                .entityId(employee.getEmployeeId())
-                                .build()));
+    public void makeRecord(EntityUpdateStatistics entityUpdateStatistics) {
+        log.info("Make save or update with Employee = {}", entityUpdateStatistics);
+        entityUpdateStatisticsRepository.findByEntityIdAndEntityName(entityUpdateStatistics.getEntityId(), entityUpdateStatistics.getEntityName())
+                .ifPresentOrElse(existedEntityUpdateStatistics -> entityUpdateStatisticsRepository.increaseUpdateCountById(existedEntityUpdateStatistics.getId()),
+                        () -> entityUpdateStatisticsRepository.save(entityUpdateStatistics));
         }
     }
 
