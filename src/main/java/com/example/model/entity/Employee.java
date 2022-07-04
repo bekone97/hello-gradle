@@ -1,5 +1,7 @@
 package com.example.model.entity;
 
+import com.example.event.EventInformation;
+import com.example.event.listener.StatisticEntityListener;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,8 +26,8 @@ import java.time.LocalDateTime;
 @SQLDelete(sql="UPDATE employee SET deleted = true WHERE employee_id=?")
 @Where(clause = "deleted=false")
 @Entity(name = "employee")
-@EntityListeners({AuditingEntityListener.class})
-public class Employee {
+@EntityListeners({AuditingEntityListener.class, StatisticEntityListener.class})
+public class Employee implements EventInformation {
     @Id
     @Column(name = "employee_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,6 +70,16 @@ public class Employee {
     @Column(name = "modified_by")
     @LastModifiedBy
     private String modifiedBy;
+
+    @Override
+    public long getEventId() {
+        return employeeId;
+    }
+
+    @Override
+    public String getEventName() {
+        return this.getClass().getName()+employeeId;
+    }
 
 //    @Version
 //    private long version;
