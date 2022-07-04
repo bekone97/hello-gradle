@@ -1,5 +1,6 @@
 package com.example.event.listener;
 
+import com.example.event.EntityCreatedEvent;
 import com.example.event.EntityUpdatedEvent;
 import com.example.model.entity.EntityUpdateStatistics;
 import com.example.model.entity.EntityUpdateStatisticsId;
@@ -19,13 +20,25 @@ public class EventListener {
 
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    public void handleTransaction(EntityUpdatedEvent entityUpdatedEvent){
+    public void handleUpdateTransaction(EntityUpdatedEvent entityUpdatedEvent){
         log.info("Got entityUpdatedEvent = {}",entityUpdatedEvent);
-        entityUpdateStatisticsService.makeRecord(EntityUpdateStatistics.builder()
+        entityUpdateStatisticsService.update(EntityUpdateStatistics.builder()
                         .entityUpdateStatisticsId(EntityUpdateStatisticsId.builder()
                                 .entityName(entityUpdatedEvent.getEntityName())
                                 .entityId(entityUpdatedEvent.getEntityId())
                                 .build())
+                .build());
+    }
+
+
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    public void handleCreateTransaction(EntityCreatedEvent entityCreatedEvent){
+        log.info("Got entityCreatedEvent = {}",entityCreatedEvent);
+        entityUpdateStatisticsService.save(EntityUpdateStatistics.builder()
+                .entityUpdateStatisticsId(EntityUpdateStatisticsId.builder()
+                        .entityName(entityCreatedEvent.getEntityName())
+                        .entityId(entityCreatedEvent.getEntityId())
+                        .build())
                 .build());
     }
 }

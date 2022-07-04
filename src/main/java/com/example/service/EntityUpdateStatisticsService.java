@@ -8,4 +8,6 @@ public interface EntityUpdateStatisticsService {
     EntityUpdateStatistics getByEntityIdAndEntityName(long entityId, String entityName);
     void makeRecord(EntityUpdateStatistics entityUpdateStatistics);
     List<EntityUpdateStatistics> findAll();
+    void save(EntityUpdateStatistics entityUpdateStatistics);
+    void update(EntityUpdateStatistics entityUpdateStatistics);
 }

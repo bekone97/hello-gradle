@@ -34,6 +34,22 @@ public class EntityUpdateStatisticsServiceImpl implements EntityUpdateStatistics
         return entityUpdateStatisticsRepository.findAll();
     }
 
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void save(EntityUpdateStatistics entityUpdateStatistics) {
+        log.info("Make save entityUpdateStatistics = {}",entityUpdateStatistics);
+        entityUpdateStatisticsRepository.save(entityUpdateStatistics);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void update(EntityUpdateStatistics entityUpdateStatistics) {
+        log.info("Make update entityUpdateStatistics = {}",entityUpdateStatistics);
+        var entityUpdateStatisticsId = entityUpdateStatistics.getEntityUpdateStatisticsId();
+
+        entityUpdateStatisticsRepository.increaseUpdateCountById(entityUpdateStatisticsId.getEntityId(),
+                entityUpdateStatisticsId.getEntityName());
+    }
 
 
     @Override
