@@ -2,16 +2,14 @@ package com.example.event;
 
 
 import lombok.Getter;
-import org.springframework.context.ApplicationEvent;
 @Getter
-public class CustomEntityEvent extends ApplicationEvent {
+public class CustomEntityEvent {
 
     private Object payload;
 
     private Entity entity;
 
-    public CustomEntityEvent(Object source,Object payload,Entity entity) {
-        super(source);
+    public CustomEntityEvent(Object payload,Entity entity) {
         this.payload=payload;
         this.entity=entity;
     }

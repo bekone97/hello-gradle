@@ -10,9 +10,6 @@
             </not>
         </preConditions>
         <createTable tableName="entity_update_statistics">
-            <column name="id" type="BIGSERIAL" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
             <column name="entity_name" type="varchar(528)">
                 <constraints nullable="false" unique="true"/>
             </column>

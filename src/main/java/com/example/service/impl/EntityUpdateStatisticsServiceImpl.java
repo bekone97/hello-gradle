@@ -2,6 +2,7 @@ package com.example.service.impl;
 
 import com.example.model.EntityUpdateStatisticsRepository;
 import com.example.model.entity.EntityUpdateStatistics;
+import com.example.model.entity.EntityUpdateStatisticsId;
 import com.example.service.EntityUpdateStatisticsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,10 @@ public class EntityUpdateStatisticsServiceImpl implements EntityUpdateStatistics
 
     @Override
     public EntityUpdateStatistics getByEntityIdAndEntityName(long entityId, String entityName) {
-        return entityUpdateStatisticsRepository.findByEntityIdAndEntityName(entityId,entityName)
+        return entityUpdateStatisticsRepository.findById(EntityUpdateStatisticsId.builder()
+                        .entityId(entityId)
+                        .entityName(entityName)
+                .build())
                 .orElseThrow(() -> new RuntimeException("There is no statistics with such id "));
     }
 
@@ -36,8 +40,10 @@ public class EntityUpdateStatisticsServiceImpl implements EntityUpdateStatistics
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void makeRecord(EntityUpdateStatistics entityUpdateStatistics) {
         log.info("Make save or update with Employee = {}", entityUpdateStatistics);
-        entityUpdateStatisticsRepository.findByEntityIdAndEntityName(entityUpdateStatistics.getEntityId(), entityUpdateStatistics.getEntityName())
-                .ifPresentOrElse(existedEntityUpdateStatistics -> entityUpdateStatisticsRepository.increaseUpdateCountById(existedEntityUpdateStatistics.getId()),
+        entityUpdateStatisticsRepository.findById(entityUpdateStatistics.getEntityUpdateStatisticsId())
+                .ifPresentOrElse(existedEntityUpdateStatistics ->
+                                entityUpdateStatisticsRepository.increaseUpdateCountById(entityUpdateStatistics.getEntityUpdateStatisticsId().getEntityId(),
+                                        entityUpdateStatistics.getEntityUpdateStatisticsId().getEntityName()),
                         () -> entityUpdateStatisticsRepository.save(entityUpdateStatistics));
         }
     }

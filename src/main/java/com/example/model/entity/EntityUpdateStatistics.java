@@ -14,16 +14,18 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class EntityUpdateStatistics {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private long id;
+    //    @Column(name = "entity_name",unique = true,nullable = false)
+//    private String entityName;
+//
+//    @Column(name = "entity_id", nullable = false)
+//    private long entityId;
 
-    @Column(name = "entity_name",unique = true,nullable = false)
-    private String entityName;
+    @EmbeddedId
+    private EntityUpdateStatisticsId entityUpdateStatisticsId;
 
-    @Column(name = "entity_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long entityId;
 
     @Column(name = "update_count", nullable = false)
     private long updateCount;

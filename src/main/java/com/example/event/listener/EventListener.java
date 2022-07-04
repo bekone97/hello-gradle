@@ -18,7 +18,7 @@ public class EventListener {
     private final EntityUpdateStatisticsFactory entityUpdateStatisticsFactory;
 
 
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION)
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void handleTransaction(CustomEntityEvent customEntityEvent){
         log.info("Got customEntityEvent = {}",customEntityEvent);
         entityUpdateStatisticsService.makeRecord(entityUpdateStatisticsFactory.getEntityUpdateStatistics(customEntityEvent));
