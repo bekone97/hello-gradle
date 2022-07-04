@@ -7,18 +7,26 @@ import com.example.model.entity.EntityUpdateStatisticsId;
 import com.example.service.EntityUpdateStatisticsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+import java.util.concurrent.Executor;
+
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class EventListener {
+@EnableAsync(proxyTargetClass = true)
+public class EventListener implements AsyncConfigurer {
 
     private final EntityUpdateStatisticsService entityUpdateStatisticsService;
 
-
+    @Async("threadPoolTaskExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void handleUpdateTransaction(EntityUpdatedEvent entityUpdatedEvent){
         log.info("Got entityUpdatedEvent = {}",entityUpdatedEvent);
@@ -30,7 +38,7 @@ public class EventListener {
                 .build());
     }
 
-
+    @Async("threadPoolTaskExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void handleCreateTransaction(EntityCreatedEvent entityCreatedEvent){
         log.info("Got entityCreatedEvent = {}",entityCreatedEvent);
@@ -41,4 +49,7 @@ public class EventListener {
                         .build())
                 .build());
     }
+
+
+
 }

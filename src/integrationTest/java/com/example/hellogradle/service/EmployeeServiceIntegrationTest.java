@@ -16,16 +16,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.concurrent.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @DBRider
@@ -33,6 +31,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 dataTypeFactoryClass = AdditionalPostgresDataTypeFactory.class)
 @ActiveProfiles("test")
 class EmployeeServiceIntegrationTest extends DatabaseContainerInitializer {
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     @Autowired
     private EmployeeService employeeService;
@@ -72,6 +73,10 @@ class EmployeeServiceIntegrationTest extends DatabaseContainerInitializer {
             });
         }
         latch.await();
+        var executor=(ThreadPoolTaskExecutor)applicationContext.getBean("threadPoolTaskExecutor");
+        while(executor.getThreadPoolExecutor().getCompletedTaskCount()<numberOfThreads){
+            Thread.yield();
+        }
         service.shutdown();
     }
 }
