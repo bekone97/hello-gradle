@@ -15,6 +15,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -27,7 +28,7 @@ import java.time.LocalDateTime;
 @Where(clause = "deleted=false")
 @Entity(name = "employee")
 @EntityListeners({AuditingEntityListener.class, StatisticEntityListener.class})
-public class Employee implements EventInformation {
+public class Employee implements EventInformation, Serializable {
     @Id
     @Column(name = "employee_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

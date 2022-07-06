@@ -6,6 +6,8 @@ import com.example.model.entity.Employee;
 import com.example.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +26,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAll();
     }
 
+    @Cacheable(value = "employee",key = "#employeeId")
     public Employee getById(Long employeeId){
-
+        log.error("Get employee by {}", employeeId);
         return employeeRepository.findById(employeeId)
                 .orElseThrow(()->new RuntimeException("No employee"));
 
@@ -42,8 +45,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
+    @CachePut(value = "employee",key = "#employeeId")
     public Employee update(Employee employee, long employeeId) {
-        log.info("Update Employee = {}",employee);
+        log.info("Update Employee = {} and employeeId ={}",employee,employeeId);
 
         var updateEmp= employeeRepository.save(mapUpdatedEmployee(employee, getById(employeeId)));
         return updateEmp;
