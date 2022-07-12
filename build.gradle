@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-cache:2.7.1'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'com.hazelcast:hazelcast-all:4.2.5'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
