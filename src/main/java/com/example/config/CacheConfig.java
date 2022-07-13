@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableCaching
-public class CasheConfig {
+public class CacheConfig {
 
     @Bean
     public Config hazelCastConfig() {
